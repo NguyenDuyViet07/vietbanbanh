@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán - EAUT Cake</title>
+    <meta name="description" content="Thanh toán đơn hàng tại EAUT Cake">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="checkout.css">
+</head>
+<body class="checkout-page">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">
+                    <img src="images/vg" alt="EAUT Cake logo">
+                </span>
+                <span>EAUT Cake</span>
+            </a>
+
+            <nav class="nav" id="nav">
+                <a href="index.html#home">Trang chủ</a>
+                <a href="index.html#products">Sản phẩm</a>
+                <a href="index.html#about">Giới thiệu</a>
+                <a href="index.html#contact">Liên hệ</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="index.html" class="back-shop-btn">← Về cửa hàng</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="checkout-main">
+        <div class="container">
+
+            <div class="checkout-breadcrumb">
+                <a href="index.html">Trang chủ</a>
+                <span>/</span>
+                <a href="index.html#products">Sản phẩm</a>
+                <span>/</span>
+                <strong>Thanh toán</strong>
+            </div>
+
+            <h1 class="checkout-title">🧾 Thanh toán đơn hàng</h1>
+            <p class="checkout-subtitle">Kiểm tra sản phẩm và nhập thông tin nhận hàng</p>
+
+            <div class="checkout-layout">
+
+                <!-- LEFT: Form -->
+                <section class="checkout-form-section">
+                    <div class="checkout-card">
+                        <h2>Thông tin nhận hàng</h2>
+
+                        <form id="checkout-form">
+                            <div class="form-group">
+                                <label for="fullname">Họ và tên <span>*</span></label>
+                                <input type="text" id="fullname" placeholder="Nguyễn Văn A" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Số điện thoại <span>*</span></label>
+                                <input type="tel" id="phone" placeholder="09xx xxx xxx" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Địa chỉ nhận hàng <span>*</span></label>
+                                <textarea id="address" rows="3" placeholder="Số nhà, đường, phường/xã, quận/huyện..." required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="payment">Phương thức thanh toán <span>*</span></label>
+                                <select id="payment" required>
+                                    <option value="">-- Chọn phương thức --</option>
+                                    <option value="cod">💵 Thanh toán khi nhận hàng (COD)</option>
+                                    <option value="bank">🏦 Chuyển khoản ngân hàng</option>
+                                </select>
+                            </div>
+
+                            <div class="bank-info" id="bank-info">
+                                <strong>🏦 Thông tin chuyển khoản</strong>
+                                <p>Ngân hàng: <b>MB Bank</b></p>
+                                <p>STK: <b>0349244062</b></p>
+                                <p>Chủ tài khoản: <b>HGiang idol</b></p>
+                                <p class="bank-note">Nội dung CK: [Họ tên] + [SĐT]</p>
+                            </div>
+
+                            <p class="form-error" id="checkout-error"></p>
+
+                            <button type="submit" class="confirm-btn" id="submit-btn">
+                                ✓ Xác nhận đặt hàng
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- RIGHT: Order summary -->
+                <aside class="checkout-summary-section">
+                    <div class="checkout-card summary-card sticky-summary">
+                        <h2>Đơn hàng của bạn</h2>
+
+                        <div class="checkout-products" id="checkout-products">
+                            <!-- filled by JS -->
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Tạm tính</span>
+                            <span id="summary-subtotal">0đ</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Phí vận chuyển</span>
+                            <span class="free-ship">Miễn phí</span>
+                        </div>
+                        <div class="summary-total">
+                            <span>Tổng thanh toán</span>
+                            <strong id="checkout-total">0đ</strong>
+                        </div>
+
+                        <a href="index.html#products" class="continue-shopping">← Tiếp tục mua sắm</a>
+                    </div>
+                </aside>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SUCCESS OVERLAY -->
+    <div class="success-overlay" id="success-overlay">
+        <div class="success-box">
+            <div class="success-icon">🎉</div>
+            <h2>Đặt hàng thành công!</h2>
+            <p id="success-message"></p>
+            <div class="success-actions">
+                <a href="index.html" class="primary-btn">Về trang chủ</a>
+                <a href="index.html#products" class="secondary-btn">Mua thêm bánh</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <span>✓</span>
+        <p id="toast-message">Thông báo</p>
+    </div>
+
+    <footer class="checkout-footer">
+        <div class="container">
+            Sweet Cake © 2026 — Cảm ơn bạn đã tin tưởng
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script src="checkout.js"></script>
+</body>
+</html>
