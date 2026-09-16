@@ -107,6 +107,42 @@ let products = JSON.parse(
         name: "Pancake",
         price: 50000,
         stock: 30
+    },
+    {
+        id: 16,
+        name: "Tiramisu Cổ Điển",
+        price: 89000,
+        stock: 25
+    },
+    {
+        id: 17,
+        name: "Tiramisu Matcha",
+        price: 95000,
+        stock: 20
+    },
+    {
+        id: 18,
+        name: "Tiramisu Chocolate",
+        price: 92000,
+        stock: 20
+    },
+    {
+        id: 19,
+        name: "Bánh Trung Thu Đậu Xanh",
+        price: 75000,
+        stock: 40
+    },
+    {
+        id: 20,
+        name: "Bánh Trung Thu Thập Cẩm",
+        price: 85000,
+        stock: 40
+    },
+    {
+        id: 21,
+        name: "Bánh Trung Thu Socola",
+        price: 80000,
+        stock: 40
     }
 ];
 
