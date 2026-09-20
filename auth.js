@@ -11,7 +11,7 @@ const DEFAULT_ADMIN = {
     username: "admin",
     password: "admin123",
     fullname: "Quản trị viên",
-    phone: "0900000000",
+    phone: "0980099999",
     role: "admin"
 };
 

@@ -128,21 +128,39 @@ let products = JSON.parse(
     },
     {
         id: 19,
-        name: "Bánh Trung Thu Đậu Xanh",
+        name: "Bánh Nướng Đậu Xanh",
         price: 75000,
         stock: 40
     },
     {
         id: 20,
-        name: "Bánh Trung Thu Thập Cẩm",
+        name: "Bánh Nướng Thập Cẩm",
         price: 85000,
         stock: 40
     },
     {
         id: 21,
-        name: "Bánh Trung Thu Socola",
+        name: "Bánh Dẻo Đậu Xanh",
         price: 80000,
         stock: 40
+    },
+    {
+        id: 22,
+        name: "Bánh Nướng Cốm Dừa",
+        price: 75000,
+        stock: 40
+    },
+    {
+        id: 23,
+        name: "Bánh Dẻo Cốm Dừa",
+        price: 75000,
+        stock: 40
+    },
+    {
+        id: 24,
+        name: "Set Quà Trung Thu",
+        price: 850000,
+        stock: 10
     }
 ];
 

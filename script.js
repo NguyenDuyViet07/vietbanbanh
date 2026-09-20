@@ -284,7 +284,6 @@ function openCheckout() {
 }
 
 function closeCheckout() {
-    // Giữ lại để tương thích (không dùng modal nữa)
 }
 
 
