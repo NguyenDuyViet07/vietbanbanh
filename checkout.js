@@ -17,6 +17,23 @@ function clearCart() {
     }
 }
 
+
+/* Giảm tồn kho khi đặt hàng thành công (đồng bộ với admin) */
+function decreaseStockFromOrder(items) {
+    let products = JSON.parse(localStorage.getItem("sweetCakeProducts") || "null");
+    if (!products || !Array.isArray(products)) return;
+
+    items.forEach(item => {
+        const product = products.find(p => p.name === item.name);
+        if (product) {
+            product.stock = Math.max(0, product.stock - item.quantity);
+        }
+    });
+
+    localStorage.setItem("sweetCakeProducts", JSON.stringify(products));
+}
+
+
 function renderCheckoutProducts() {
     const productsEl = document.getElementById("checkout-products");
     const totalEl = document.getElementById("checkout-total");
@@ -140,12 +157,20 @@ function initCheckoutForm() {
             total += p.price * p.quantity;
         });
 
+        // Gắn username nếu đã đăng nhập (để khách xem đơn của mình)
+        let username = null;
+        if (typeof getCurrentUser === "function") {
+            const u = getCurrentUser();
+            if (u) username = u.username || null;
+        }
+
         const order = {
             id: "DH" + Date.now(),
             customer: {
                 name: fullname,
                 phone: phone,
-                address: address
+                address: address,
+                username: username
             },
             items: cartData.map(p => ({
                 name: p.name,
@@ -155,13 +180,17 @@ function initCheckoutForm() {
             total: total,
             payment: paymentName,
             status: "Chờ xử lý",
-            date: new Date().toLocaleString("vi-VN")
+            date: new Date().toLocaleString("vi-VN"),
+            createdAt: Date.now()
         };
 
         let orders =
             JSON.parse(localStorage.getItem("sweetCakeOrders") || "[]");
         orders.push(order);
         localStorage.setItem("sweetCakeOrders", JSON.stringify(orders));
+
+        // Trừ số lượng tồn kho
+        decreaseStockFromOrder(order.items);
 
         clearCart();
 

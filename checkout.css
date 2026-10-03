@@ -161,6 +161,50 @@
     font-style: italic;
 }
 
+.bank-qr-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    align-items: center;
+}
+
+.bank-qr-wrap {
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.bank-qr-image {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 12px;
+    border: 1px solid #f0e4e8;
+    background: #fff;
+    display: block;
+}
+
+.bank-qr-hint {
+    margin: 8px 0 0 !important;
+    font-size: 12px !important;
+    color: #8a6a74 !important;
+}
+
+.bank-qr-text {
+    flex: 1;
+    min-width: 160px;
+}
+
+@media (max-width: 480px) {
+    .bank-qr-layout {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .bank-qr-image {
+        width: 160px;
+        height: 160px;
+    }
+}
+
 .form-error {
     color: #d32f2f;
     font-size: 13px;

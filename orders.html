@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn hàng của tôi - EAUT Cake</title>
+    <meta name="description" content="Theo dõi trạng thái đơn hàng tại EAUT Cake">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="checkout.css">
+    <style>
+        .orders-page { background: #faf7f8; min-height: 100vh; }
+        .orders-main { padding: 40px 0 60px; }
+        .orders-title {
+            font-size: 28px; color: #3d2430; margin: 0 0 8px;
+        }
+        .orders-subtitle {
+            color: #8a6a74; margin: 0 0 28px; font-size: 15px;
+        }
+        .orders-lookup {
+            background: #fff; border-radius: 16px; border: 1px solid #f0e4e8;
+            padding: 20px 24px; margin-bottom: 24px;
+            display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
+        }
+        .orders-lookup .form-group { flex: 1; min-width: 180px; margin: 0; }
+        .orders-lookup label {
+            display: block; font-size: 13px; font-weight: 600;
+            color: #3d2430; margin-bottom: 6px;
+        }
+        .orders-lookup input {
+            width: 100%; padding: 11px 14px; border: 1.5px solid #e8d8de;
+            border-radius: 10px; font-size: 14px; font-family: inherit;
+            box-sizing: border-box;
+        }
+        .orders-lookup input:focus {
+            outline: none; border-color: #c45c7a;
+            box-shadow: 0 0 0 3px rgba(196, 92, 122, 0.12);
+        }
+        .orders-lookup button {
+            padding: 11px 20px; border: none; border-radius: 10px;
+            background: #3d2430; color: #fff; font-weight: 600;
+            font-size: 14px; cursor: pointer; font-family: inherit;
+            white-space: nowrap;
+        }
+        .orders-lookup button:hover { background: #c45c7a; }
+
+        .order-card {
+            background: #fff; border-radius: 16px; border: 1px solid #f0e4e8;
+            padding: 20px 24px; margin-bottom: 16px;
+            box-shadow: 0 4px 16px rgba(61, 36, 48, 0.04);
+        }
+        .order-card-header {
+            display: flex; flex-wrap: wrap; justify-content: space-between;
+            gap: 10px; align-items: center; margin-bottom: 14px;
+            padding-bottom: 14px; border-bottom: 1px solid #f5eef1;
+        }
+        .order-id {
+            font-weight: 700; color: #3d2430; font-size: 15px;
+        }
+        .order-date { font-size: 13px; color: #8a6a74; }
+        .status-badge {
+            display: inline-block; padding: 5px 12px; border-radius: 20px;
+            font-size: 12px; font-weight: 600;
+        }
+        .status-pending { background: #fff3e0; color: #e65100; }
+        .status-processing { background: #e3f2fd; color: #1565c0; }
+        .status-shipping { background: #e8f5e9; color: #2e7d32; }
+        .status-done { background: #e8f5e9; color: #1b5e20; }
+        .status-cancel { background: #fce4ec; color: #c62828; }
+
+        .order-items { margin: 0 0 12px; padding: 0; list-style: none; }
+        .order-items li {
+            display: flex; justify-content: space-between; gap: 12px;
+            font-size: 14px; color: #5c4a52; padding: 4px 0;
+        }
+        .order-total {
+            font-weight: 700; color: #c45c7a; font-size: 16px;
+            text-align: right;
+        }
+        .order-meta {
+            margin-top: 10px; font-size: 13px; color: #8a6a74;
+            line-height: 1.6;
+        }
+        .orders-empty {
+            text-align: center; padding: 48px 20px;
+            background: #fff; border-radius: 16px; border: 1px solid #f0e4e8;
+            color: #8a6a74;
+        }
+        .orders-empty h3 { color: #3d2430; margin: 0 0 8px; }
+        .back-shop {
+            display: inline-block; margin-top: 16px; padding: 10px 20px;
+            background: #3d2430; color: #fff; border-radius: 10px;
+            text-decoration: none; font-weight: 600; font-size: 14px;
+        }
+        .back-shop:hover { background: #c45c7a; }
+        .user-hint {
+            background: #fff0f4; color: #c45c7a; padding: 12px 16px;
+            border-radius: 12px; font-size: 14px; margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="orders-page">
+
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">
+                    <img src="images/logo.png" alt="EAUT Cake logo">
+                </span>
+                <span>EAUT Cake</span>
+            </a>
+            <nav class="nav" id="nav">
+                <a href="index.html#home">Trang chủ</a>
+                <a href="index.html#products">Sản phẩm</a>
+                <a href="index.html#about">Giới thiệu</a>
+                <a href="index.html#contact">Liên hệ</a>
+            </nav>
+            <div class="header-actions">
+                <a href="index.html" class="back-shop-btn">← Về cửa hàng</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="orders-main">
+        <div class="container">
+            <h1 class="orders-title">🧾 Đơn hàng của tôi</h1>
+            <p class="orders-subtitle">Theo dõi trạng thái đơn hàng đã đặt tại EAUT Cake</p>
+
+            <div id="user-hint" class="user-hint" style="display:none;"></div>
+
+            <div class="orders-lookup">
+                <div class="form-group">
+                    <label for="lookup-phone">Số điện thoại đặt hàng</label>
+                    <input type="tel" id="lookup-phone" placeholder="09xx xxx xxx">
+                </div>
+                <div class="form-group">
+                    <label for="lookup-id">Mã đơn (tùy chọn)</label>
+                    <input type="text" id="lookup-id" placeholder="DH...">
+                </div>
+                <button type="button" onclick="lookupOrders()">🔍 Tra cứu</button>
+            </div>
+
+            <div id="orders-list"></div>
+        </div>
+    </main>
+
+    <script src="auth.js"></script>
+    <script>
+        function formatMoney(n) {
+            return Number(n || 0).toLocaleString("vi-VN") + " ₫";
+        }
+
+        function statusClass(status) {
+            const s = (status || "").toLowerCase();
+            if (s.includes("hủy")) return "status-cancel";
+            if (s.includes("hoàn") || s.includes("xong") || s.includes("thành công")) return "status-done";
+            if (s.includes("giao") || s.includes("ship")) return "status-shipping";
+            if (s.includes("xử lý") || s.includes("đang")) return "status-processing";
+            return "status-pending";
+        }
+
+        function getAllOrders() {
+            try {
+                return JSON.parse(localStorage.getItem("sweetCakeOrders") || "[]");
+            } catch {
+                return [];
+            }
+        }
+
+        function renderOrderCards(list) {
+            const box = document.getElementById("orders-list");
+            if (!list.length) {
+                box.innerHTML = `
+                    <div class="orders-empty">
+                        <h3>Chưa có đơn hàng</h3>
+                        <p>Không tìm thấy đơn nào. Hãy kiểm tra lại SĐT hoặc mã đơn.</p>
+                        <a href="index.html#products" class="back-shop">Mua sắm ngay</a>
+                    </div>`;
+                return;
+            }
+
+            // Mới nhất trước
+            const sorted = [...list].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            box.innerHTML = sorted.map(order => {
+                const items = order.items || [];
+                const itemsHtml = items.map(it =>
+                    `<li><span>${it.name} × ${it.quantity}</span><span>${formatMoney(it.price * it.quantity)}</span></li>`
+                ).join("");
+                const c = order.customer || {};
+                const st = order.status || "Chờ xử lý";
+                return `
+                <div class="order-card">
+                    <div class="order-card-header">
+                        <div>
+                            <div class="order-id">#${order.id}</div>
+                            <div class="order-date">${order.date || ""}</div>
+                        </div>
+                        <span class="status-badge ${statusClass(st)}">${st}</span>
+                    </div>
+                    <ul class="order-items">${itemsHtml}</ul>
+                    <div class="order-total">Tổng: ${formatMoney(order.total)}</div>
+                    <div class="order-meta">
+                        👤 ${c.name || "—"} · 📞 ${c.phone || "—"}<br>
+                        📍 ${c.address || "—"}<br>
+                        💳 ${order.payment || "—"}
+                    </div>
+                </div>`;
+            }).join("");
+        }
+
+        function lookupOrders() {
+            const phone = (document.getElementById("lookup-phone").value || "").trim();
+            const id = (document.getElementById("lookup-id").value || "").trim().toUpperCase();
+            const all = getAllOrders();
+            let list = all;
+
+            if (phone) {
+                list = list.filter(o => {
+                    const p = (o.customer && o.customer.phone) || "";
+                    return p.replace(/\s/g, "").includes(phone.replace(/\s/g, ""));
+                });
+            }
+            if (id) {
+                list = list.filter(o => String(o.id || "").toUpperCase().includes(id));
+            }
+            if (!phone && !id) {
+                // Nếu đã đăng nhập → hiện đơn theo username
+                const user = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+                if (user) {
+                    list = all.filter(o =>
+                        (o.customer && o.customer.username === user.username) ||
+                        (o.customer && o.customer.phone && user.phone && o.customer.phone === user.phone)
+                    );
+                } else {
+                    list = [];
+                }
+            }
+            renderOrderCards(list);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const user = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+            const hint = document.getElementById("user-hint");
+            if (user) {
+                hint.style.display = "block";
+                hint.textContent = "Xin chào, " + (user.fullname || user.username) +
+                    "! Đơn hàng gắn với tài khoản của bạn được hiển thị bên dưới. Bạn cũng có thể tra cứu bằng SĐT.";
+                if (user.phone) {
+                    document.getElementById("lookup-phone").value = user.phone;
+                }
+                // Tự load đơn của user
+                const all = getAllOrders();
+                const mine = all.filter(o =>
+                    (o.customer && o.customer.username === user.username) ||
+                    (user.phone && o.customer && o.customer.phone === user.phone)
+                );
+                renderOrderCards(mine.length ? mine : all.filter(() => false));
+                if (!mine.length) {
+                    document.getElementById("orders-list").innerHTML = `
+                        <div class="orders-empty">
+                            <h3>Chưa có đơn hàng</h3>
+                            <p>Bạn chưa đặt đơn nào bằng tài khoản này. Thử tra cứu bằng số điện thoại.</p>
+                            <a href="index.html#products" class="back-shop">Mua sắm ngay</a>
+                        </div>`;
+                }
+            } else {
+                hint.style.display = "block";
+                hint.textContent = "Nhập số điện thoại (hoặc mã đơn) dùng khi đặt hàng để xem trạng thái.";
+                document.getElementById("orders-list").innerHTML = `
+                    <div class="orders-empty">
+                        <h3>Tra cứu đơn hàng</h3>
+                        <p>Nhập SĐT hoặc mã đơn ở trên rồi bấm Tra cứu.</p>
+                    </div>`;
+            }
+        });
+    </script>
+</body>
+</html>

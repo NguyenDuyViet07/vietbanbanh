@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đội ngũ thực hiện - EAUT Cake</title>
+    <meta name="description" content="Giới thiệu các thành viên nhóm thực hiện website EAUT Cake">
+    <link rel="stylesheet" href="admin.css">
+    <style>
+        /* Bổ sung style riêng cho trang team */
+        .team-main {
+            margin-left: 260px;
+            min-height: 100vh;
+            background: #faf7f8;
+            padding: 0;
+        }
+
+        .team-header {
+            background: #fff;
+            padding: 24px 32px;
+            border-bottom: 1px solid #f0e4e8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .team-header h1 {
+            margin: 0 0 4px;
+            font-size: 22px;
+            color: #3d2430;
+        }
+
+        .team-header p {
+            margin: 0;
+            color: #8a6a74;
+            font-size: 14px;
+        }
+
+        .team-content {
+            padding: 28px 32px;
+        }
+
+        .team-content h2 {
+            margin: 0 0 20px;
+            font-size: 18px;
+            color: #3d2430;
+        }
+
+        .team-table-wrap {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #f0e4e8;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(61, 36, 48, 0.06);
+        }
+
+        .team-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .team-table thead {
+            background: #3d2430;
+            color: #fff;
+        }
+
+        .team-table th {
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .team-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #f5eef1;
+            font-size: 14px;
+            color: #3d2430;
+            vertical-align: middle;
+        }
+
+        .team-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .team-table tbody tr:hover {
+            background: #fdf9fa;
+        }
+
+        .member-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #c45c7a, #3d2430);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .member-name {
+            font-weight: 600;
+            color: #3d2430;
+        }
+
+        .member-id {
+            font-family: ui-monospace, monospace;
+            background: #f5eef1;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #c45c7a;
+            font-weight: 600;
+        }
+
+        .hobby-tag {
+            display: inline-block;
+            background: #fff0f4;
+            color: #c45c7a;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .team-note {
+            margin-top: 20px;
+            padding: 14px 18px;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #f0e4e8;
+            color: #8a6a74;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .team-main { margin-left: 0; }
+            .team-table th:nth-child(1),
+            .team-table td:nth-child(1) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="admin-logo">
+            <span class="logo-icon">
+                <img src="images/logo.png" alt="EAUT Cake logo">
+            </span>
+            <span>EAUT Cake</span>
+        </div>
+
+        <div class="admin-title">ĐỘI NGŨ</div>
+
+        <nav>
+            <a href="team.html" style="background:rgba(255,255,255,0.12);border-radius:10px;">👥 Thành viên</a>
+            <a href="index.html#home">🏠 Trang chủ</a>
+            <a href="index.html#products">🍰 Sản phẩm</a>
+            <a href="index.html#about">ℹ️ Giới thiệu</a>
+            <a href="index.html#contact">📞 Liên hệ</a>
+        </nav>
+
+        <a href="index.html" class="back-home">← Về cửa hàng</a>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="team-main">
+        <header class="team-header">
+            <div>
+                <h1>Giới thiệu thành viên nhóm</h1>
+                <p>Danh sách sinh viên thực hiện website EAUT Cake – Học phần Thiết kế Web</p>
+            </div>
+            <div class="admin-user">👥 Nhóm thực hiện</div>
+        </header>
+
+        <div class="team-content">
+            <h2>Danh sách thành viên</h2>
+
+            <div class="team-table-wrap">
+                <table class="team-table">
+                    <thead>
+                        <tr>
+                            <th style="width:60px">STT</th>
+                            <th>Thành viên</th>
+                            <th style="width:140px">Mã sinh viên</th>
+                            <th style="width:180px">Công việc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div class="member-info">
+                                    <div class="member-avatar">V</div>
+                                    <span class="member-name">Nguyễn Duy Việt</span>
+                                </div>
+                            </td>
+                            <td><span class="member-id">25002743</span></td>
+                            <td><span class="hobby-tag">Viết Giới thiệu đề tài, Kết luận, Báo cáo tổng hợp. <br> CSS trang sản phẩm <br> JavaScript: Auth, Cart, Validation form, Admin, Filter sản phẩm </span></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div class="member-info">
+                                    <div class="member-avatar">H</div>
+                                    <span class="member-name">Nguyễn Trung Hưng</span>
+                                </div>
+                            </td>
+                            <td><span class="member-id">25002725</span></td>
+                            <td><span class="hobby-tag">Viết code CSS: About, Reviews, CTA, style modal Auth</span></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <div class="member-info">
+                                    <div class="member-avatar">G</div>
+                                    <span class="member-name">Nguyễn Thị Hương Giang</span>
+                                </div>
+                            </td>
+                            <td><span class="member-id">25002633</span></td>
+                            <td><span class="hobby-tag">Viết code HTML: Header, Footer, Hero, Products, cấu trúc Checkout</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="team-note">
+                📌 Trang này giới thiệu các thành viên nhóm thực hiện bài tập lớn học phần <strong>Thiết kế Web</strong> – Khoa Công nghệ Thông tin, Trường Đại học Công nghệ Đông Á.
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

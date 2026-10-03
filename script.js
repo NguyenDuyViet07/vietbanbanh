@@ -12,6 +12,142 @@ function saveCart() {
 
 
 /* =========================
+   PRODUCT STOCK (liên kết admin)
+========================= */
+
+const PRODUCTS_KEY = "sweetCakeProducts";
+
+const DEFAULT_PRODUCTS = [
+    { id: 1, name: "Bánh Kem Chocolate", price: 250000, stock: 20 },
+    { id: 2, name: "Bánh Kem Paris", price: 350000, stock: 20 },
+    { id: 3, name: "Bánh Kem Dâu Tây", price: 280000, stock: 20 },
+    { id: 4, name: "Cupcake Vani", price: 45000, stock: 30 },
+    { id: 5, name: "Cupcake Socola", price: 45000, stock: 30 },
+    { id: 6, name: "Cupcake Dâu Tây", price: 45000, stock: 30 },
+    { id: 7, name: "Bánh Tart Trứng", price: 35000, stock: 30 },
+    { id: 8, name: "Donut Chocolate", price: 35000, stock: 30 },
+    { id: 9, name: "Bánh Giáng Sinh", price: 320000, stock: 20 },
+    { id: 10, name: "Bánh Sinh Nhật Vanilla", price: 320000, stock: 20 },
+    { id: 11, name: "Bánh Sinh Nhật Matcha", price: 320000, stock: 20 },
+    { id: 12, name: "Bánh Pháp Petit Four", price: 35000, stock: 30 },
+    { id: 13, name: "Donut Kem Trứng", price: 25000, stock: 30 },
+    { id: 14, name: "Donut Dâu Tây", price: 65000, stock: 30 },
+    { id: 15, name: "Pancake", price: 50000, stock: 30 },
+    { id: 16, name: "Tiramisu Cổ Điển", price: 89000, stock: 25 },
+    { id: 17, name: "Tiramisu Matcha", price: 95000, stock: 20 },
+    { id: 18, name: "Tiramisu Chocolate", price: 92000, stock: 20 },
+    { id: 19, name: "Bánh Nướng Đậu Xanh", price: 75000, stock: 40 },
+    { id: 20, name: "Bánh Nướng Thập Cẩm", price: 85000, stock: 40 },
+    { id: 21, name: "Bánh Dẻo Đậu Xanh", price: 80000, stock: 40 },
+    { id: 22, name: "Bánh Nướng Cốm Dừa", price: 75000, stock: 40 },
+    { id: 23, name: "Bánh Dẻo Cốm Dừa", price: 75000, stock: 40 },
+    { id: 24, name: "Set Quà Trung Thu", price: 850000, stock: 10 }
+];
+
+function getProducts() {
+    let list = JSON.parse(localStorage.getItem(PRODUCTS_KEY) || "null");
+    if (!list || !Array.isArray(list) || list.length === 0) {
+        list = DEFAULT_PRODUCTS.map(p => ({ ...p }));
+        localStorage.setItem(PRODUCTS_KEY, JSON.stringify(list));
+    }
+    return list;
+}
+
+function getProductByName(name) {
+    return getProducts().find(p => p.name === name);
+}
+
+function getAvailableStock(name) {
+    const product = getProductByName(name);
+    if (!product) return 999; // không có trong kho admin thì không chặn
+    const inCart = cart.find(c => c.name === name);
+    const reserved = inCart ? inCart.quantity : 0;
+    return Math.max(0, product.stock - reserved);
+}
+
+/* Hiển thị số lượng còn lại trên thẻ sản phẩm (nhỏ gọn) */
+function renderProductStock() {
+    const cards = document.querySelectorAll(".product-card");
+    if (!cards.length) return;
+
+    const products = getProducts();
+
+    cards.forEach(card => {
+        // Ưu tiên tên trong addToCart (khớp kho admin), fallback h3
+        let name = null;
+        const btn = card.querySelector(".add-btn");
+        if (btn) {
+            const m = (btn.getAttribute("onclick") || "").match(/addToCart\('([^']+)'/);
+            if (m) name = m[1];
+        }
+        if (!name) {
+            const h3 = card.querySelector("h3");
+            if (h3) name = h3.textContent.trim();
+        }
+        if (!name) return;
+
+        const product = products.find(p => p.name === name);
+        if (!product) return;
+
+        const stock = product.stock;
+        let badgeClass = "stock-badge in";
+        let text = "Còn " + stock;
+        if (stock === 0) {
+            badgeClass = "stock-badge out";
+            text = "Hết hàng";
+        } else if (stock <= 5) {
+            badgeClass = "stock-badge low";
+            text = "Còn " + stock;
+        }
+
+        let badge = card.querySelector(".stock-badge");
+        if (!badge) {
+            badge = document.createElement("span");
+            badge.className = badgeClass;
+            const bottom = card.querySelector(".product-bottom");
+            if (bottom) {
+                const strong = bottom.querySelector("strong");
+                if (strong) {
+                    // gói giá + badge cho bố cục gọn
+                    let wrap = bottom.querySelector(".price-stock");
+                    if (!wrap) {
+                        wrap = document.createElement("div");
+                        wrap.className = "price-stock";
+                        strong.parentNode.insertBefore(wrap, strong);
+                        wrap.appendChild(strong);
+                    }
+                    wrap.appendChild(badge);
+                } else {
+                    bottom.prepend(badge);
+                }
+            } else {
+                card.querySelector(".product-content")?.appendChild(badge);
+            }
+        } else {
+            badge.className = badgeClass;
+        }
+        badge.textContent = text;
+
+        // Disable nút nếu hết hàng
+        if (btn) {
+            if (stock <= 0) {
+                btn.disabled = true;
+                btn.classList.add("disabled");
+                btn.textContent = "Hết hàng";
+            } else {
+                btn.disabled = false;
+                btn.classList.remove("disabled");
+                if (btn.textContent.includes("Hết hàng") || btn.textContent.trim() === "Hết hàng") {
+                    btn.innerHTML = "🛒 Thêm";
+                }
+            }
+        }
+    });
+}
+
+
+
+/* =========================
    FORMAT MONEY
 ========================= */
 
@@ -45,26 +181,34 @@ function showToast(message) {
 
 function addToCart(name, price) {
 
+    const available = getAvailableStock(name);
+
+    if (available <= 0) {
+        showToast("Xin lỗi, " + name + " đã hết hàng!");
+        renderProductStock();
+        return;
+    }
+
     const existingProduct = cart.find(
         product => product.name === name
     );
 
     if (existingProduct) {
-
+        if (existingProduct.quantity >= (getProductByName(name)?.stock ?? 999)) {
+            showToast("Chỉ còn " + (getProductByName(name)?.stock ?? 0) + " sản phẩm!");
+            return;
+        }
         existingProduct.quantity += 1;
-
     } else {
-
         cart.push({
             name: name,
             price: price,
             quantity: 1
         });
-
     }
 
     updateCart();
-
+    renderProductStock();
     showToast("Đã thêm " + name + " vào giỏ hàng!");
 }
 
@@ -191,9 +335,16 @@ function increaseQuantity(index) {
 
     if (!cart[index]) return;
 
-    cart[index].quantity++;
+    const name = cart[index].name;
+    const product = getProductByName(name);
+    if (product && cart[index].quantity >= product.stock) {
+        showToast("Chỉ còn " + product.stock + " sản phẩm trong kho!");
+        return;
+    }
 
+    cart[index].quantity++;
     updateCart();
+    renderProductStock();
 }
 
 
@@ -217,6 +368,7 @@ function decreaseQuantity(index) {
     }
 
     updateCart();
+    renderProductStock();
 }
 
 
@@ -233,6 +385,7 @@ function removeProduct(index) {
     cart.splice(index, 1);
 
     updateCart();
+    renderProductStock();
 
     showToast("Đã xóa " + removedName);
 }
@@ -727,3 +880,257 @@ if (document.getElementById("reviews-grid")) {
     initStarPicker();
     prefillReviewName();
 }
+
+
+/* =========================
+   INIT STOCK DISPLAY
+========================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Đảm bảo có dữ liệu sản phẩm trong localStorage
+    getProducts();
+    renderProductStock();
+});
+
+// Cập nhật khi quay lại tab (admin có thể đã sửa tồn kho)
+window.addEventListener("focus", function () {
+    renderProductStock();
+});
+
+window.addEventListener("storage", function (e) {
+    if (e.key === PRODUCTS_KEY) {
+        renderProductStock();
+    }
+});
+
+/* =========================
+   PRODUCT DETAIL MODAL
+========================= */
+
+const PRODUCT_DETAILS = {
+    "Bánh Kem Chocolate": {
+        type: "BÁNH KEM",
+        desc: "Bánh kem chocolate đậm đà với lớp gato mềm ẩm, phủ kem chocolate mịn và trang trí socola chảy. Phù hợp cho sinh nhật và các dịp đặc biệt.",
+        ingredients: ["Bột mì số 8", "Trứng gà tươi", "Đường cát", "Bơ lạt", "Bột cacao nguyên chất", "Kem tươi whipping", "Socola đen 70%", "Sữa tươi không đường"]
+    },
+    "Bánh Kem Paris": {
+        type: "BÁNH KEM",
+        desc: "Bánh kem Caramel kết hợp hương vị caramel ngọt ngào với nhân nho khô và lớp gato vanilla mềm mịn. Vẻ ngoài tinh tế mang phong cách Paris.",
+        ingredients: ["Gato vanilla", "Kem caramel", "Nho khô ngâm rum", "Bơ lạt", "Đường nâu", "Kem tươi", "Muối biển", "Vanilla extract"]
+    },
+    "Bánh Kem Dâu Tây": {
+        type: "BÁNH KEM",
+        desc: "Vị dâu tây tươi hòa quyện cùng kem sữa mềm mịn. Lớp bánh bông lan nhẹ, phủ kem và trang trí dâu tây tươi bắt mắt.",
+        ingredients: ["Bột mì", "Trứng gà", "Đường", "Dâu tây tươi", "Kem tươi whipping", "Sữa đặc", "Bơ", "Mứt dâu"]
+    },
+    "Cupcake Vani": {
+        type: "CUPCAKE",
+        desc: "Cupcake nhỏ xinh với lớp kem vani thơm nhẹ, vị ngọt thanh, thích hợp làm món tráng miệng hoặc quà tặng.",
+        ingredients: ["Bột mì đa dụng", "Trứng", "Đường bột", "Bơ lạt", "Sữa tươi", "Vanilla extract", "Kem whipping", "Muối"]
+    },
+    "Cupcake Socola": {
+        type: "CUPCAKE",
+        desc: "Cupcake socola đậm vị với lớp kem socola mềm, phù hợp người yêu thích hương vị cacao.",
+        ingredients: ["Bột mì", "Bột cacao", "Trứng", "Đường", "Bơ", "Sữa tươi", "Kem socola", "Socola chip"]
+    },
+    "Cupcake Dâu Tây": {
+        type: "CUPCAKE",
+        desc: "Cupcake vị dâu tây dịu nhẹ, kem hồng bắt mắt, thơm mùi trái cây tự nhiên.",
+        ingredients: ["Bột mì", "Trứng", "Đường", "Bơ", "Puree dâu tây", "Kem whipping", "Màu thực phẩm tự nhiên", "Dâu tươi trang trí"]
+    },
+    "Bánh Tart Trứng": {
+        type: "DESSERT",
+        desc: "Bánh tart trứng kiểu Hồng Kông với lớp vỏ giòn tan và nhân trứng sữa béo mịn, thơm ngậy.",
+        ingredients: ["Bột mì", "Bơ lạt", "Đường bột", "Trứng gà", "Sữa tươi", "Sữa đặc", "Vanilla", "Muối"]
+    },
+    "Donut Chocolate": {
+        type: "DESSERT",
+        desc: "Donut mềm xốp phủ lớp socola bóng mịn, thêm topping hạt và socola chip.",
+        ingredients: ["Bột mì", "Men nở", "Sữa tươi", "Trứng", "Đường", "Bơ", "Socola phủ", "Hạt trang trí"]
+    },
+    "Bánh Giáng Sinh": {
+        type: "BÁNH KEM",
+        desc: "Bánh khúc cây Giáng sinh truyền thống, lớp gato chocolate cuộn kem, trang trí theo chủ đề Noel.",
+        ingredients: ["Gato chocolate", "Kem tươi", "Bột cacao", "Đường", "Trứng", "Bơ", "Chocolate ganache", "Phụ kiện trang trí Noel"]
+    },
+    "Bánh Sinh Nhật Vanilla": {
+        type: "BÁNH KEM",
+        desc: "Bánh sinh nhật vanilla nhẹ nhàng, kem trắng mịn, dễ trang trí theo yêu cầu cho ngày đặc biệt.",
+        ingredients: ["Bột mì", "Trứng", "Đường", "Bơ lạt", "Sữa tươi", "Vanilla extract", "Kem whipping", "Đường bột"]
+    },
+    "Bánh Sinh Nhật Matcha": {
+        type: "BÁNH KEM",
+        desc: "Bánh sinh nhật matcha thanh mát, kết hợp kem sữa và bột trà xanh Nhật Bản cao cấp.",
+        ingredients: ["Bột mì", "Bột matcha Nhật", "Trứng", "Đường", "Bơ", "Kem tươi", "Sữa tươi", "White chocolate"]
+    },
+    "Bánh Pháp Petit Four": {
+        type: "DESSERT",
+        desc: "Petit four kiểu Pháp – những chiếc bánh nhỏ tinh tế, nhiều lớp và hương vị đa dạng trong từng miếng.",
+        ingredients: ["Bột hạnh nhân", "Trứng", "Đường", "Bơ", "Mứt trái cây", "Chocolate", "Fondant", "Vanilla"]
+    },
+    "Donut Kem Trứng": {
+        type: "DESSERT",
+        desc: "Donut nhân kem trứng béo mịn, lớp vỏ mềm, phủ đường bột hoặc glaze nhẹ.",
+        ingredients: ["Bột mì", "Men", "Sữa", "Trứng", "Đường", "Bơ", "Kem trứng custard", "Đường bột"]
+    },
+    "Donut Dâu Tây": {
+        type: "DESSERT",
+        desc: "Donut vị dâu tây với lớp glaze hồng và topping dâu, ngọt dịu dễ ăn.",
+        ingredients: ["Bột mì", "Men nở", "Sữa tươi", "Trứng", "Đường", "Bơ", "Puree dâu", "Glaze dâu"]
+    },
+    "Pancake": {
+        type: "DESSERT",
+        desc: "Pancake mềm xốp kiểu Mỹ, dùng kèm mật ong, bơ hoặc trái cây tươi.",
+        ingredients: ["Bột mì", "Bột nở", "Trứng", "Sữa tươi", "Đường", "Bơ lạt", "Muối", "Vanilla"]
+    },
+    "Tiramisu Cổ Điển": {
+        type: "TIRAMISU",
+        desc: "Tiramisu cổ điển kiểu Ý với bánh ladyfinger thấm cà phê espresso, kem mascarpone và cacao.",
+        ingredients: ["Bánh ladyfinger", "Mascarpone", "Trứng gà", "Đường", "Espresso", "Rượu Marsala (tùy chọn)", "Bột cacao", "Kem tươi"]
+    },
+    "Tiramisu Matcha": {
+        type: "TIRAMISU",
+        desc: "Biến tấu tiramisu với bột matcha, vị trà xanh thanh và kem mascarpone béo nhẹ.",
+        ingredients: ["Bánh ladyfinger", "Mascarpone", "Bột matcha", "Trứng", "Đường", "Sữa tươi", "Kem tươi", "Bột matcha rắc mặt"]
+    },
+    "Tiramisu Chocolate": {
+        type: "TIRAMISU",
+        desc: "Tiramisu socola đậm đà, kết hợp cacao và kem mascarpone cho tín đồ chocolate.",
+        ingredients: ["Bánh ladyfinger", "Mascarpone", "Bột cacao", "Socola đen", "Trứng", "Đường", "Espresso", "Kem tươi"]
+    },
+    "Set Quà Trung Thu": {
+        type: "BÁNH TRUNG THU",
+        desc: "Set quà trung thu cao cấp gồm nhiều loại bánh nướng và bánh dẻo, đóng hộp sang trọng làm quà tặng.",
+        ingredients: ["Bánh nướng thập cẩm", "Bánh nướng đậu xanh", "Bánh dẻo", "Hạt sen", "Lạp xưởng", "Đường", "Bột bánh", "Hộp quà trang trí"]
+    },
+    "Bánh Nướng Đậu Xanh": {
+        type: "BÁNH TRUNG THU",
+        desc: "Bánh nướng nhân đậu xanh truyền thống, vỏ bánh thơm, nhân mịn ngọt vừa phải.",
+        ingredients: ["Bột bánh nướng", "Đậu xanh không vỏ", "Đường", "Dầu ăn", "Trứng gà (quét mặt)", "Muối", "Mạch nha"]
+    },
+    "Bánh Nướng Cốm Dừa": {
+        type: "BÁNH TRUNG THU",
+        desc: "Bánh nướng nhân cốm dừa lạ miệng, kết hợp hương cốm non và dừa sợi.",
+        ingredients: ["Bột bánh nướng", "Cốm tươi", "Dừa sợi", "Đường", "Dầu", "Trứng quét mặt", "Mạch nha"]
+    },
+    "Bánh Dẻo Cốm Dừa": {
+        type: "BÁNH TRUNG THU",
+        desc: "Bánh dẻo mềm với nhân cốm dừa, vị thanh mát, không nướng.",
+        ingredients: ["Bột nếp", "Đường bột", "Cốm", "Dừa nạo", "Dầu đậu nành", "Nước lọc", "Muối"]
+    },
+    "Bánh Nướng Thập Cẩm": {
+        type: "BÁNH TRUNG THU",
+        desc: "Bánh nướng thập cẩm đủ vị: hạt sen, lạp xưởng, trứng muối, mứt bí – hương vị trung thu kinh điển.",
+        ingredients: ["Bột bánh nướng", "Hạt sen", "Lạp xưởng", "Trứng muối", "Mứt bí", "Hạt điều", "Đường", "Dầu ăn"]
+    },
+    "Bánh Dẻo Đậu Xanh": {
+        type: "BÁNH TRUNG THU",
+        desc: "Bánh dẻo nhân đậu xanh mịn, vỏ bánh dẻo trong, ngọt nhẹ dễ ăn.",
+        ingredients: ["Bột nếp", "Đậu xanh không vỏ", "Đường", "Dầu", "Nước hoa bưởi (tùy chọn)", "Muối"]
+    }
+};
+
+function openProductDetail(name) {
+    const detail = PRODUCT_DETAILS[name];
+    if (!detail) {
+        showToast("Chưa có thông tin chi tiết cho sản phẩm này");
+        return;
+    }
+
+    // Tìm card để lấy ảnh, giá, tag
+    const cards = document.querySelectorAll(".product-card");
+    let imgSrc = "", priceText = "", tagText = "";
+    cards.forEach(card => {
+        const h3 = card.querySelector("h3");
+        if (h3 && h3.textContent.trim() === name) {
+            const img = card.querySelector(".product-image img");
+            const priceEl = card.querySelector(".product-bottom strong");
+            const tagEl = card.querySelector(".product-tag");
+            if (img) imgSrc = img.getAttribute("src") || "";
+            if (priceEl) priceText = priceEl.textContent.trim();
+            if (tagEl) tagText = tagEl.textContent.trim();
+        }
+    });
+
+    document.getElementById("pd-image").src = imgSrc;
+    document.getElementById("pd-image").alt = name;
+    document.getElementById("pd-name").textContent = name;
+    document.getElementById("pd-type").textContent = detail.type;
+    document.getElementById("pd-price").textContent = priceText;
+    document.getElementById("pd-desc").textContent = detail.desc;
+
+    const tagEl = document.getElementById("pd-tag");
+    if (tagText) {
+        tagEl.style.display = "inline-block";
+        tagEl.textContent = tagText;
+    } else {
+        tagEl.style.display = "none";
+    }
+
+    // Tồn kho
+    const stock = typeof getAvailableStock === "function" ? getAvailableStock(name) : null;
+    const stockEl = document.getElementById("pd-stock");
+    if (stock !== null && stock !== undefined) {
+        stockEl.textContent = stock > 0 ? `Còn ${stock} sản phẩm` : "Hết hàng";
+        stockEl.style.color = stock > 0 ? "#6b8f71" : "#c45c7a";
+    } else {
+        stockEl.textContent = "";
+    }
+
+    // Thành phần
+    const ul = document.getElementById("pd-ingredients");
+    ul.innerHTML = "";
+    detail.ingredients.forEach(ing => {
+        const li = document.createElement("li");
+        li.textContent = ing;
+        ul.appendChild(li);
+    });
+
+    // Nút thêm giỏ
+    const addBtn = document.getElementById("pd-add-btn");
+    // Lấy giá số từ addToCart trên card
+    let priceNum = 0;
+    cards.forEach(card => {
+        const h3 = card.querySelector("h3");
+        if (h3 && h3.textContent.trim() === name) {
+            const btn = card.querySelector(".add-btn");
+            if (btn) {
+                const m = (btn.getAttribute("onclick") || "").match(/addToCart\('([^']+)',\s*(\d+)\)/);
+                if (m) priceNum = parseInt(m[2], 10);
+            }
+        }
+    });
+    addBtn.onclick = function () {
+        addToCart(name, priceNum);
+        closeProductDetail();
+    };
+
+    const overlay = document.getElementById("product-detail-overlay");
+    overlay.style.display = "flex";
+    document.body.style.overflow = "hidden";
+}
+
+function closeProductDetail() {
+    const overlay = document.getElementById("product-detail-overlay");
+    if (overlay) {
+        overlay.style.display = "none";
+        document.body.style.overflow = "";
+    }
+}
+
+// Gắn click vào product-card (trừ nút Thêm)
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".product-card").forEach(card => {
+        card.addEventListener("click", function (e) {
+            // Không mở detail khi bấm nút Thêm
+            if (e.target.closest(".add-btn")) return;
+            const h3 = card.querySelector("h3");
+            if (h3) openProductDetail(h3.textContent.trim());
+        });
+    });
+});
+
+// Đóng bằng phím Esc
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeProductDetail();
+});

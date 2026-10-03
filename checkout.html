@@ -82,10 +82,19 @@
 
                             <div class="bank-info" id="bank-info">
                                 <strong>🏦 Thông tin chuyển khoản</strong>
-                                <p>Ngân hàng: <b>MB Bank</b></p>
-                                <p>STK: <b>0349244062</b></p>
-                                <p>Chủ tài khoản: <b>HGiang idol</b></p>
-                                <p class="bank-note">Nội dung CK: [Họ tên] + [SĐT]</p>
+                                <div class="bank-qr-layout">
+                                    <div class="bank-qr-wrap">
+                                        <!-- Thay file images/qr-bank.png bằng mã QR ngân hàng của bạn -->
+                                        <img src="images/qr-bank.jpg" alt="Mã QR chuyển khoản" id="bank-qr-image" class="bank-qr-image">
+                                        <p class="bank-qr-hint">Quét mã QR để chuyển khoản</p>
+                                    </div>
+                                    <div class="bank-qr-text">
+                                        <p>Ngân hàng: <b>MB Bank</b></p>
+                                        <p>STK: <b>0349244062</b></p>
+                                        <p>Chủ tài khoản: <b>Nguyễn Duy Việt</b></p>
+                                        <p class="bank-note">Nội dung CK: [Họ tên] + [SĐT]</p>
+                                    </div>
+                                </div>
                             </div>
 
                             <p class="form-error" id="checkout-error"></p>
@@ -135,7 +144,8 @@
             <h2>Đặt hàng thành công!</h2>
             <p id="success-message"></p>
             <div class="success-actions">
-                <a href="index.html" class="primary-btn">Về trang chủ</a>
+                <a href="orders.html" class="primary-btn">Xem đơn hàng của tôi</a>
+                <a href="index.html" class="secondary-btn">Về trang chủ</a>
                 <a href="index.html#products" class="secondary-btn">Mua thêm bánh</a>
             </div>
         </div>

@@ -505,7 +505,15 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.product-bottom .price-stock {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
 }
 
 .product-bottom strong {
@@ -527,6 +535,48 @@ img {
     background: #873a2c;
     transform: translateY(-2px);
 }
+
+
+/* =========================
+   STOCK BADGE (nhỏ gọn)
+========================= */
+
+.stock-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+.stock-badge.in {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.stock-badge.low {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.stock-badge.out {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.add-btn.disabled,
+.add-btn:disabled {
+    background: #b0a8a4 !important;
+    cursor: not-allowed;
+    transform: none !important;
+    opacity: 0.85;
+}
+
 
 
 /* =========================
@@ -1575,5 +1625,187 @@ img {
 
     .review-form-card {
         padding: 20px;
+    }
+}
+
+/* =========================
+   PRODUCT DETAIL MODAL
+========================= */
+
+#product-detail-overlay {
+    /* kế thừa .overlay */
+}
+
+.product-detail-modal {
+    position: relative;
+    background: #fff;
+    border-radius: 20px;
+    max-width: 860px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 60px rgba(61, 36, 48, 0.25);
+    animation: pdSlideIn 0.28s ease;
+}
+
+@keyframes pdSlideIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.product-detail-modal .close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(61, 36, 48, 0.08);
+    color: #3d2430;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-detail-modal .close-btn:hover {
+    background: #3d2430;
+    color: #fff;
+}
+
+.pd-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.pd-image-wrap {
+    position: relative;
+    background: #faf5f7;
+    min-height: 320px;
+}
+
+.pd-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 320px;
+    max-height: 480px;
+}
+
+.pd-tag {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #c45c7a;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.pd-info {
+    padding: 28px 28px 32px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pd-type {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #c45c7a;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.pd-info h2 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    color: #3d2430;
+    line-height: 1.3;
+}
+
+.pd-price {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #c45c7a;
+}
+
+.pd-stock {
+    margin: 0 0 18px;
+    font-size: 13px;
+    color: #6b8f71;
+    font-weight: 600;
+}
+
+.pd-section {
+    margin-bottom: 16px;
+}
+
+.pd-section h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    color: #3d2430;
+    font-weight: 700;
+}
+
+.pd-section p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #5c4a52;
+}
+
+.pd-section ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #5c4a52;
+}
+
+.pd-section ul li {
+    margin-bottom: 2px;
+}
+
+.pd-add-btn {
+    margin-top: auto;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.product-card {
+    cursor: pointer;
+}
+
+.product-card .add-btn {
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    .pd-layout {
+        grid-template-columns: 1fr;
+    }
+    .pd-image-wrap img {
+        max-height: 240px;
+        min-height: 200px;
+    }
+    .pd-info {
+        padding: 20px;
+    }
+    .pd-info h2 {
+        font-size: 20px;
     }
 }

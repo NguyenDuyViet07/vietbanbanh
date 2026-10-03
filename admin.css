@@ -523,3 +523,166 @@ footer {
 .save-stock-btn:hover {
     background: #c45c7a;
 }
+
+/* ========== BAR CHART DOANH THU ========== */
+.chart-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #f0e4e8;
+    padding: 22px 24px 28px;
+    margin-top: 20px;
+    box-shadow: 0 4px 16px rgba(61, 36, 48, 0.05);
+}
+
+.chart-header h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    color: #3d2430;
+}
+
+.chart-header p {
+    margin: 0 0 18px;
+    font-size: 13px;
+    color: #8a6a74;
+}
+
+.bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    min-height: 220px;
+    padding: 10px 4px 0;
+    border-bottom: 2px solid #f0e4e8;
+    overflow-x: auto;
+}
+
+.bar-col {
+    flex: 1;
+    min-width: 48px;
+    max-width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 200px;
+}
+
+.bar-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #3d2430;
+    margin-bottom: 6px;
+    text-align: center;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.bar-fill {
+    width: 100%;
+    max-width: 44px;
+    border-radius: 8px 8px 4px 4px;
+    background: linear-gradient(180deg, #c45c7a 0%, #3d2430 100%);
+    min-height: 4px;
+    transition: height 0.4s ease;
+}
+
+.bar-col:hover .bar-fill {
+    filter: brightness(1.08);
+}
+
+.bar-label {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #8a6a74;
+    text-align: center;
+    line-height: 1.3;
+    word-break: break-all;
+}
+
+.bar-chart-status .bar-fill {
+    background: linear-gradient(180deg, #6b8f71 0%, #3d5a40 100%);
+}
+
+.chart-legend {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #8a6a74;
+}
+
+/* ========== BỘ LỌC NGÀY BIỂU ĐỒ ========== */
+.chart-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+    margin-bottom: 14px;
+    padding: 14px 16px;
+    background: #faf7f8;
+    border-radius: 12px;
+    border: 1px solid #f0e4e8;
+}
+
+.chart-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.chart-filter-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #3d2430;
+}
+
+.chart-filter-group input[type="date"] {
+    padding: 8px 10px;
+    border: 1.5px solid #e0d0d5;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    color: #3d2430;
+    background: #fff;
+}
+
+.chart-filter-group input[type="date"]:focus {
+    outline: none;
+    border-color: #c45c7a;
+    box-shadow: 0 0 0 2px rgba(196, 92, 122, 0.15);
+}
+
+.chart-filter-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #3d2430;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    height: 36px;
+}
+
+.chart-filter-btn:hover {
+    background: #c45c7a;
+}
+
+.chart-filter-reset {
+    background: #fff;
+    color: #3d2430;
+    border: 1.5px solid #e0d0d5;
+}
+
+.chart-filter-reset:hover {
+    background: #f5eef1;
+    border-color: #c45c7a;
+    color: #c45c7a;
+}
+
+.chart-filter-summary {
+    margin: 0 0 12px;
+    font-size: 13px;
+    color: #6b8f71;
+    font-weight: 600;
+    min-height: 18px;
+}

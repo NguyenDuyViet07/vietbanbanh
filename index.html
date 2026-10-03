@@ -28,6 +28,7 @@
                 <a href="#products">Sản phẩm</a>
                 <a href="#about">Giới thiệu</a>
                 <a href="#contact">Liên hệ</a>
+                <a href="team.html">Đội ngũ</a>
             </nav>
 
             <div class="header-actions">
@@ -43,6 +44,7 @@
                             <span>▾</span>
                         </button>
                         <div class="user-dropdown" id="user-dropdown">
+                            <a href="orders.html">🧾 Đơn hàng của tôi</a>
                             <a href="#" id="admin-link-item" style="display:none;" onclick="goAdmin(event)">⚙️ Quản trị</a>
                             <a href="#" onclick="handleLogout(event)">🚪 Đăng xuất</a>
                         </div>
@@ -304,7 +306,7 @@
 
                             <button
                                 class="add-btn"
-                                onclick="addToCart('Bánh Kem Paris', 250000)"
+                                onclick="addToCart('Bánh Kem Paris', 350000)"
                             >
                                 🛒 Thêm
                             </button>
@@ -494,7 +496,7 @@
 
                             <button
                                 class="add-btn"
-                                onclick="addToCart('Cupcake dâu tây', 45000)"
+                                onclick="addToCart('Cupcake Dâu Tây', 45000)"
                             >
                                 🛒 Thêm
                             </button>
@@ -541,7 +543,7 @@
 
                             <button
                                 class="add-btn"
-                                onclick="addToCart('Bánh Trứng', 35000)"
+                                onclick="addToCart('Bánh Tart Trứng', 35000)"
                             >
                                 🛒 Thêm
                             </button>
@@ -754,7 +756,7 @@
 
                             <button
                                 class="add-btn"
-                                onclick="addToCart('Bánh ngọt', 35000)"
+                                onclick="addToCart('Bánh Pháp Petit Four', 35000)"
                             >
                                 🛒 Thêm
                             </button>
@@ -797,7 +799,7 @@
 
                             <button
                                 class="add-btn"
-                                onclick="addToCart('Donut kem trứng', 25000)"
+                                onclick="addToCart('Donut Kem Trứng', 25000)"
                             >
                                 🛒 Thêm
                             </button>
@@ -1282,6 +1284,8 @@ Hãy chọn chiếc bánh bạn yêu thích, trao đi một chút yêu thương 
                 <a href="#home">Trang chủ</a>
                 <a href="#products">Sản phẩm</a>
                 <a href="#about">Giới thiệu</a>
+                <a href="orders.html">Đơn hàng của tôi</a>
+                <a href="team.html">Đội ngũ thực hiện</a>
 
             </div>
 
@@ -1320,10 +1324,47 @@ Hãy chọn chiếc bánh bạn yêu thích, trao đi một chút yêu thương 
                 © 2026 EAUT Cake. All rights reserved.
             </p>
 
+            <a href="team.html" class="primary-btn" style="display:inline-block;margin-top:12px;padding:10px 22px;font-size:14px;text-decoration:none;">
+                👥 Xem đội ngũ thực hiện
+            </a>
+
         </div>
 
     </footer>
 
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div class="overlay" id="product-detail-overlay" onclick="closeProductDetail(event)">
+        <div class="product-detail-modal" onclick="event.stopPropagation()">
+            <button class="close-btn" type="button" onclick="closeProductDetail()">&times;</button>
+            <div class="pd-layout">
+                <div class="pd-image-wrap">
+                    <img id="pd-image" src="" alt="">
+                    <span class="pd-tag" id="pd-tag" style="display:none;"></span>
+                </div>
+                <div class="pd-info">
+                    <span class="pd-type" id="pd-type"></span>
+                    <h2 id="pd-name"></h2>
+                    <p class="pd-price" id="pd-price"></p>
+                    <p class="pd-stock" id="pd-stock"></p>
+
+                    <div class="pd-section">
+                        <h3>Giới thiệu</h3>
+                        <p id="pd-desc"></p>
+                    </div>
+
+                    <div class="pd-section">
+                        <h3>Thành phần</h3>
+                        <ul id="pd-ingredients"></ul>
+                    </div>
+
+                    <button type="button" class="primary-btn pd-add-btn" id="pd-add-btn">
+                        🛒 Thêm vào giỏ hàng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- CART -->
     <div class="overlay" id="cart-overlay">
