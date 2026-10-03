@@ -96,6 +96,65 @@
             background: #fff0f4; color: #c45c7a; padding: 12px 16px;
             border-radius: 12px; font-size: 14px; margin-bottom: 20px;
         }
+        .order-pay-edit {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px dashed #f0e4e8;
+        }
+        .order-pay-edit label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #3d2430;
+            margin-bottom: 6px;
+        }
+        .order-pay-edit select {
+            width: 100%;
+            max-width: 320px;
+            padding: 10px 12px;
+            border: 1.5px solid #e8d8de;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #fff;
+            color: #3d2430;
+            cursor: pointer;
+        }
+        .order-pay-edit select:focus {
+            outline: none;
+            border-color: #c45c7a;
+            box-shadow: 0 0 0 3px rgba(196, 92, 122, 0.12);
+        }
+        .order-qr-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            margin-top: 12px;
+            padding: 12px;
+            background: #fdf6f8;
+            border: 1.5px dashed #e8b4c0;
+            border-radius: 12px;
+        }
+        .order-qr-img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #fff;
+            border: 1px solid #f0e4e8;
+        }
+        .order-qr-info {
+            font-size: 13px;
+            color: #5a3d48;
+            line-height: 1.55;
+        }
+        .order-qr-info p { margin: 2px 0; }
+        .order-qr-note {
+            color: #c45c7a !important;
+            font-style: italic;
+            margin-top: 6px !important;
+        }
     </style>
 </head>
 <body class="orders-page">
@@ -166,6 +225,43 @@
             }
         }
 
+        function isPaymentEditable(status) {
+            const s = (status || "Chờ xử lý").toLowerCase();
+            // Chỉ cho đổi khi còn chờ xử lý / chưa giao / chưa hủy / chưa hoàn thành
+            if (s.includes("hủy") || s.includes("hoàn") || s.includes("xong") || s.includes("giao") || s.includes("thành công")) {
+                return false;
+            }
+            return true;
+        }
+
+        function isBankPayment(payment) {
+            const p = (payment || "").toLowerCase();
+            return p.includes("chuyển khoản") || p.includes("bank") || p === "bank";
+        }
+
+        function changeOrderPayment(orderId, newValue) {
+            const all = getAllOrders();
+            const idx = all.findIndex(o => String(o.id) === String(orderId));
+            if (idx < 0) return;
+
+            const order = all[idx];
+            if (!isPaymentEditable(order.status)) {
+                alert("Đơn đã được xử lý, không thể đổi phương thức thanh toán.");
+                lookupOrders();
+                return;
+            }
+
+            const paymentName = newValue === "bank"
+                ? "Chuyển khoản ngân hàng"
+                : "Thanh toán khi nhận hàng";
+
+            all[idx].payment = paymentName;
+            localStorage.setItem("sweetCakeOrders", JSON.stringify(all));
+
+            // Giữ bộ lọc hiện tại
+            lookupOrders();
+        }
+
         function renderOrderCards(list) {
             const box = document.getElementById("orders-list");
             if (!list.length) {
@@ -187,6 +283,27 @@
                 ).join("");
                 const c = order.customer || {};
                 const st = order.status || "Chờ xử lý";
+                const canEditPay = isPaymentEditable(st);
+                const bank = isBankPayment(order.payment);
+                const paySelect = canEditPay ? `
+                    <div class="order-pay-edit">
+                        <label>Phương thức thanh toán</label>
+                        <select onchange="changeOrderPayment('${order.id}', this.value)">
+                            <option value="cod" ${!bank ? "selected" : ""}>💵 Thanh toán khi nhận hàng (COD)</option>
+                            <option value="bank" ${bank ? "selected" : ""}>🏦 Chuyển khoản ngân hàng</option>
+                        </select>
+                        ${bank ? `
+                        <div class="order-qr-box">
+                            <img src="images/qr-bank.png" alt="QR chuyển khoản" class="order-qr-img">
+                            <div class="order-qr-info">
+                                <p><b>MB Bank</b> · STK <b>0349244062</b></p>
+                                <p>Chủ TK: <b>HGiang idol</b></p>
+                                <p class="order-qr-note">Nội dung CK: ${c.name || ""} ${c.phone || ""}</p>
+                            </div>
+                        </div>` : ""}
+                    </div>` : `
+                    <div class="order-meta">💳 ${order.payment || "—"}</div>`;
+
                 return `
                 <div class="order-card">
                     <div class="order-card-header">
@@ -200,9 +317,9 @@
                     <div class="order-total">Tổng: ${formatMoney(order.total)}</div>
                     <div class="order-meta">
                         👤 ${c.name || "—"} · 📞 ${c.phone || "—"}<br>
-                        📍 ${c.address || "—"}<br>
-                        💳 ${order.payment || "—"}
+                        📍 ${c.address || "—"}
                     </div>
+                    ${paySelect}
                 </div>`;
             }).join("");
         }
