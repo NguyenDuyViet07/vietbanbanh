@@ -74,7 +74,8 @@ function register(username, password, fullname, phone) {
         password,
         fullname: fullname.trim(),
         phone: (phone || "").trim(),
-        role: "user"
+        role: "user",
+        avatar: null
     };
 
     users.push(newUser);
@@ -111,6 +112,58 @@ function isAdmin() {
 
 function isLoggedIn() {
     return !!getCurrentUser();
+}
+
+
+function updateUserAvatar(username, dataUrl) {
+    const users = getUsers();
+    const idx = users.findIndex(u => u.username === username);
+    if (idx < 0) {
+        return { success: false, message: "Không tìm thấy tài khoản!" };
+    }
+    const current = getCurrentUser();
+    if (!current || current.username !== username) {
+        return { success: false, message: "Chỉ được đổi ảnh của chính bạn!" };
+    }
+    users[idx].avatar = dataUrl;
+    saveUsers(users);
+    // Cập nhật session hiện tại
+    const updated = { ...users[idx] };
+    delete updated.password;
+    setCurrentUser(updated);
+    return { success: true, message: "Đã cập nhật ảnh đại diện!" };
+}
+
+
+function recoverPassword(username, phone) {
+    username = (username || "").trim().toLowerCase();
+    phone = (phone || "").trim().replace(/\s/g, "");
+
+    if (!username || !phone) {
+        return { success: false, message: "Vui lòng nhập tên đăng nhập và số điện thoại!" };
+    }
+
+    const users = getUsers();
+    const user = users.find(u => u.username === username);
+
+    if (!user) {
+        return { success: false, message: "Không tìm thấy tên đăng nhập này!" };
+    }
+
+    const storedPhone = (user.phone || "").replace(/\s/g, "");
+    if (!storedPhone) {
+        return { success: false, message: "Tài khoản này chưa có số điện thoại, không thể lấy lại mật khẩu!" };
+    }
+    if (storedPhone !== phone) {
+        return { success: false, message: "Số điện thoại không khớp với tài khoản!" };
+    }
+
+    return {
+        success: true,
+        message: "Xác minh thành công!",
+        password: user.password,
+        username: user.username
+    };
 }
 
 // Khởi tạo users khi load

@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đội ngũ thực hiện - EAUT Cake</title>
-    <meta name="description" content="Giới thiệu các thành viên nhóm thực hiện website EAUT Cake">
+    <title>Đội ngũ &amp; thành viên - EAUT Cake</title>
+    <meta name="description" content="Đội ngũ thực hiện và danh sách thành viên đăng ký website EAUT Cake">
     <link rel="stylesheet" href="admin.css">
     <style>
-        /* Bổ sung style riêng cho trang team */
         .team-main {
             margin-left: 260px;
             min-height: 100vh;
             background: #faf7f8;
             padding: 0;
         }
-
         .team-header {
             background: #fff;
             padding: 24px 32px;
@@ -22,30 +20,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
         }
-
-        .team-header h1 {
-            margin: 0 0 4px;
-            font-size: 22px;
-            color: #3d2430;
-        }
-
-        .team-header p {
-            margin: 0;
-            color: #8a6a74;
-            font-size: 14px;
-        }
-
-        .team-content {
-            padding: 28px 32px;
-        }
-
-        .team-content h2 {
-            margin: 0 0 20px;
-            font-size: 18px;
-            color: #3d2430;
-        }
-
+        .team-header h1 { margin: 0 0 4px; font-size: 22px; color: #3d2430; }
+        .team-header p { margin: 0; color: #8a6a74; font-size: 14px; }
+        .team-content { padding: 28px 32px 40px; }
+        .team-content h2 { margin: 0 0 8px; font-size: 18px; color: #3d2430; }
+        .section-desc { margin: 0 0 18px; font-size: 14px; color: #8a6a74; }
+        .team-section { margin-bottom: 36px; }
         .team-table-wrap {
             background: #fff;
             border-radius: 16px;
@@ -53,99 +36,59 @@
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(61, 36, 48, 0.06);
         }
-
-        .team-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .team-table thead {
-            background: #3d2430;
-            color: #fff;
-        }
-
+        .team-table { width: 100%; border-collapse: collapse; }
+        .team-table thead { background: #3d2430; color: #fff; }
         .team-table th {
-            padding: 14px 18px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
+            padding: 14px 18px; text-align: left; font-size: 13px;
+            font-weight: 600; letter-spacing: 0.3px;
         }
-
         .team-table td {
-            padding: 16px 18px;
-            border-bottom: 1px solid #f5eef1;
-            font-size: 14px;
-            color: #3d2430;
-            vertical-align: middle;
+            padding: 16px 18px; border-bottom: 1px solid #f5eef1;
+            font-size: 14px; color: #3d2430; vertical-align: middle;
         }
-
-        .team-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .team-table tbody tr:hover {
-            background: #fdf9fa;
-        }
-
-        .member-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #c45c7a, #3d2430);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .member-info {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .member-name {
-            font-weight: 600;
-            color: #3d2430;
-        }
-
+        .team-table tbody tr:last-child td { border-bottom: none; }
+        .team-table tbody tr:hover { background: #fdf9fa; }
+        .member-info { display: flex; align-items: center; gap: 14px; }
+        .member-name { font-weight: 600; color: #3d2430; }
         .member-id {
-            font-family: ui-monospace, monospace;
-            background: #f5eef1;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #c45c7a;
-            font-weight: 600;
+            font-family: monospace; font-size: 13px; color: #5c4a52;
+            background: #f5eef1; padding: 4px 10px; border-radius: 8px;
         }
-
-        .hobby-tag {
-            display: inline-block;
-            background: #fff0f4;
-            color: #c45c7a;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
+        .hobby-tag { font-size: 13px; color: #5c4a52; line-height: 1.5; }
+        .avatar-wrap { position: relative; width: 48px; height: 48px; flex-shrink: 0; }
+        .member-avatar {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: linear-gradient(135deg, #c45c7a, #3d2430);
+            color: #fff; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 16px; overflow: hidden;
+            border: 2px solid #fff; box-shadow: 0 0 0 2px #e8d0d8;
         }
-
+        .member-avatar img {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 50%; display: block;
+        }
+        .avatar-change-btn {
+            position: absolute; right: -4px; bottom: -4px;
+            width: 22px; height: 22px; border-radius: 50%;
+            border: 2px solid #fff; background: #c45c7a; color: #fff;
+            font-size: 11px; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; padding: 0; line-height: 1;
+        }
+        .avatar-change-btn:hover { background: #3d2430; }
+        .avatar-file-input { display: none; }
         .team-note {
-            margin-top: 20px;
-            padding: 14px 18px;
-            background: #fff;
-            border-radius: 12px;
-            border: 1px solid #f0e4e8;
-            color: #8a6a74;
-            font-size: 14px;
+            margin-top: 20px; padding: 14px 18px; background: #fff8fa;
+            border-radius: 12px; border: 1px solid #f0e4e8;
+            font-size: 13px; color: #5c4a52; line-height: 1.6;
         }
-
+        .members-empty {
+            padding: 28px 20px; text-align: center; color: #8a6a74; font-size: 14px;
+        }
+        .members-empty a { color: #c45c7a; font-weight: 600; }
         @media (max-width: 768px) {
-            .sidebar { display: none; }
             .team-main { margin-left: 0; }
+            .team-header { padding: 16px; }
+            .team-content { padding: 16px; }
             .team-table th:nth-child(1),
             .team-table td:nth-child(1) { display: none; }
         }
@@ -153,7 +96,6 @@
 </head>
 <body>
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="admin-logo">
             <span class="logo-icon">
@@ -161,86 +103,216 @@
             </span>
             <span>EAUT Cake</span>
         </div>
-
-        <div class="admin-title">ĐỘI NGŨ</div>
-
+        <div class="admin-title">ĐỘI NGŨ &amp; TV</div>
         <nav>
-            <a href="team.html" style="background:rgba(255,255,255,0.12);border-radius:10px;">👥 Thành viên</a>
+            <a href="team.html" style="background:rgba(255,255,255,0.12);border-radius:10px;">👥 Đội ngũ &amp; thành viên</a>
             <a href="index.html#home">🏠 Trang chủ</a>
             <a href="index.html#products">🍰 Sản phẩm</a>
             <a href="index.html#about">ℹ️ Giới thiệu</a>
             <a href="index.html#contact">📞 Liên hệ</a>
+            <a href="orders.html">🧾 Đơn hàng</a>
         </nav>
-
         <a href="index.html" class="back-home">← Về cửa hàng</a>
     </aside>
 
-    <!-- MAIN -->
     <main class="team-main">
         <header class="team-header">
             <div>
-                <h1>Giới thiệu thành viên nhóm</h1>
-                <p>Danh sách sinh viên thực hiện website EAUT Cake – Học phần Thiết kế Web</p>
+                <h1>Đội ngũ &amp; thành viên</h1>
+                <p>Đội ngũ thực hiện website và danh sách thành viên đã đăng ký tài khoản</p>
             </div>
-            <div class="admin-user">👥 Nhóm thực hiện</div>
+            <div class="admin-user" id="team-user-label">👥 EAUT Cake</div>
         </header>
 
         <div class="team-content">
-            <h2>Danh sách thành viên</h2>
 
-            <div class="team-table-wrap">
-                <table class="team-table">
-                    <thead>
-                        <tr>
-                            <th style="width:60px">STT</th>
-                            <th>Thành viên</th>
-                            <th style="width:140px">Mã sinh viên</th>
-                            <th style="width:180px">Công việc</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <div class="member-info">
-                                    <div class="member-avatar">V</div>
-                                    <span class="member-name">Nguyễn Duy Việt</span>
-                                </div>
-                            </td>
-                            <td><span class="member-id">25002743</span></td>
-                            <td><span class="hobby-tag">Viết Giới thiệu đề tài, Kết luận, Báo cáo tổng hợp. <br> CSS trang sản phẩm <br> JavaScript: Auth, Cart, Validation form, Admin, Filter sản phẩm </span></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <div class="member-info">
-                                    <div class="member-avatar">H</div>
-                                    <span class="member-name">Nguyễn Trung Hưng</span>
-                                </div>
-                            </td>
-                            <td><span class="member-id">25002725</span></td>
-                            <td><span class="hobby-tag">Viết code CSS: About, Reviews, CTA, style modal Auth</span></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                <div class="member-info">
-                                    <div class="member-avatar">G</div>
-                                    <span class="member-name">Nguyễn Thị Hương Giang</span>
-                                </div>
-                            </td>
-                            <td><span class="member-id">25002633</span></td>
-                            <td><span class="hobby-tag">Viết code HTML: Header, Footer, Hero, Products, cấu trúc Checkout</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <section class="team-section">
+                <h2>Đội ngũ thực hiện</h2>
+                <p class="section-desc">Ba thành viên nhóm thực hiện bài tập lớn học phần Thiết kế Web.</p>
+                <div class="team-table-wrap">
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th style="width:60px">STT</th>
+                                <th>Họ và tên</th>
+                                <th style="width:140px">Mã sinh viên</th>
+                                <th style="width:220px">Công việc</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <div class="member-info">
+                                        <div class="avatar-wrap"><div class="member-avatar">V</div></div>
+                                        <span class="member-name">Nguyễn Duy Việt</span>
+                                    </div>
+                                </td>
+                                <td><span class="member-id">25002743</span></td>
+                                <td><span class="hobby-tag">Báo cáo tổng hợp; CSS sản phẩm; JavaScript: Auth, Cart, Admin, Filter</span></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <div class="member-info">
+                                        <div class="avatar-wrap"><div class="member-avatar">H</div></div>
+                                        <span class="member-name">Nguyễn Trung Hưng</span>
+                                    </div>
+                                </td>
+                                <td><span class="member-id">25002725</span></td>
+                                <td><span class="hobby-tag">CSS: About, Reviews, CTA, style modal Auth</span></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>
+                                    <div class="member-info">
+                                        <div class="avatar-wrap"><div class="member-avatar">G</div></div>
+                                        <span class="member-name">Nguyễn Thị Hương Giang</span>
+                                    </div>
+                                </td>
+                                <td><span class="member-id">25002633</span></td>
+                                <td><span class="hobby-tag">HTML: Header, Footer, Hero, Products, cấu trúc Checkout</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="team-section">
+                <h2>Thành viên đăng ký</h2>
+                <p class="section-desc">Danh sách tài khoản đã đăng ký trên website. Đăng nhập để đổi ảnh đại diện (khung tròn) của chính bạn.</p>
+                <div class="team-table-wrap">
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th style="width:60px">STT</th>
+                                <th>Họ và tên</th>
+                                <th style="width:160px">Tên đăng nhập</th>
+                                <th style="width:150px">Số điện thoại</th>
+                            </tr>
+                        </thead>
+                        <tbody id="members-tbody"></tbody>
+                    </table>
+                    <div class="members-empty" id="members-empty" style="display:none;">
+                        Chưa có thành viên đăng ký. Hãy đăng ký tài khoản trên trang chủ.
+                    </div>
+                </div>
+            </section>
 
             <div class="team-note">
-                📌 Trang này giới thiệu các thành viên nhóm thực hiện bài tập lớn học phần <strong>Thiết kế Web</strong> – Khoa Công nghệ Thông tin, Trường Đại học Công nghệ Đông Á.
+                📌 <strong>Đội ngũ</strong> là 3 sinh viên thực hiện bài tập lớn.
+                <strong>Thành viên</strong> là các tài khoản người dùng đã đăng ký (lưu trên trình duyệt).
+                Ảnh đại diện hình tròn; khi đăng nhập, bấm 📷 trên avatar của bạn để thay ảnh.
             </div>
         </div>
     </main>
 
+    <input type="file" id="avatar-file-input" class="avatar-file-input" accept="image/*">
+
+    <script src="auth.js"></script>
+    <script>
+        function getInitial(name) {
+            const s = (name || "?").trim();
+            return s.charAt(0).toUpperCase();
+        }
+
+        function escapeHtml(str) {
+            return String(str || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        function avatarHtml(user, canEdit) {
+            const initial = getInitial(user.fullname || user.username);
+            const hasImg = user.avatar && String(user.avatar).startsWith("data:");
+            const inner = hasImg
+                ? '<img src="' + user.avatar + '" alt="' + escapeHtml(user.fullname || user.username) + '">'
+                : initial;
+            const btn = canEdit
+                ? '<button type="button" class="avatar-change-btn" title="Đổi ảnh đại diện" onclick="triggerAvatarUpload(\'' + escapeHtml(user.username) + '\')">📷</button>'
+                : "";
+            return '<div class="avatar-wrap"><div class="member-avatar">' + inner + '</div>' + btn + '</div>';
+        }
+
+        let pendingAvatarUsername = null;
+
+        function triggerAvatarUpload(username) {
+            const current = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+            if (!current || current.username !== username) {
+                alert("Chỉ đổi được ảnh đại diện của tài khoản đang đăng nhập.");
+                return;
+            }
+            pendingAvatarUsername = username;
+            document.getElementById("avatar-file-input").click();
+        }
+
+        function handleAvatarFile(file) {
+            if (!file || !pendingAvatarUsername) return;
+            if (!file.type.startsWith("image/")) {
+                alert("Vui lòng chọn file ảnh (JPG, PNG, WebP…).");
+                return;
+            }
+            if (file.size > 800 * 1024) {
+                alert("Ảnh quá lớn. Vui lòng chọn ảnh dưới 800KB.");
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const dataUrl = e.target.result;
+                if (typeof updateUserAvatar === "function") {
+                    const result = updateUserAvatar(pendingAvatarUsername, dataUrl);
+                    if (!result.success) {
+                        alert(result.message || "Không cập nhật được ảnh.");
+                        return;
+                    }
+                }
+                pendingAvatarUsername = null;
+                renderMembers();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function renderMembers() {
+            const tbody = document.getElementById("members-tbody");
+            const empty = document.getElementById("members-empty");
+            const users = typeof getUsers === "function" ? getUsers() : [];
+            const members = users.filter(u => u.role !== "admin");
+            const current = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+
+            if (!members.length) {
+                tbody.innerHTML = "";
+                empty.style.display = "block";
+                return;
+            }
+            empty.style.display = "none";
+
+            tbody.innerHTML = members.map(function (u, i) {
+                const canEdit = current && current.username === u.username;
+                return '<tr>' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td><div class="member-info">' + avatarHtml(u, canEdit) +
+                    '<span class="member-name">' + escapeHtml(u.fullname || "—") + '</span></div></td>' +
+                    '<td><span class="member-id">' + escapeHtml(u.username) + '</span></td>' +
+                    '<td>' + escapeHtml(u.phone || "—") + '</td>' +
+                    '</tr>';
+            }).join("");
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const current = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+            const label = document.getElementById("team-user-label");
+            if (label && current) {
+                label.textContent = "👤 " + (current.fullname || current.username);
+            }
+            document.getElementById("avatar-file-input").addEventListener("change", function (e) {
+                const file = e.target.files && e.target.files[0];
+                handleAvatarFile(file);
+                e.target.value = "";
+            });
+            renderMembers();
+        });
+    </script>
 </body>
 </html>

@@ -1809,3 +1809,34 @@ img {
         font-size: 20px;
     }
 }
+
+
+/* Quên mật khẩu */
+.auth-forgot-wrap {
+    text-align: center;
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+.auth-forgot-link {
+    color: #c45c7a;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+.auth-forgot-link:hover {
+    text-decoration: underline;
+    color: #3d2430;
+}
+.auth-success {
+    color: #2e7d32;
+    background: #e8f5e9;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 0 0 12px;
+}
+.auth-success a {
+    color: #c45c7a;
+    font-weight: 600;
+}

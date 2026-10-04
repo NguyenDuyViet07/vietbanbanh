@@ -28,7 +28,7 @@
                 <a href="#products">Sản phẩm</a>
                 <a href="#about">Giới thiệu</a>
                 <a href="#contact">Liên hệ</a>
-                <a href="team.html">Đội ngũ</a>
+                <a href="team.html">Đội ngũ &amp; thành viên</a>
             </nav>
 
             <div class="header-actions">
@@ -1285,7 +1285,7 @@ Hãy chọn chiếc bánh bạn yêu thích, trao đi một chút yêu thương 
                 <a href="#products">Sản phẩm</a>
                 <a href="#about">Giới thiệu</a>
                 <a href="orders.html">Đơn hàng của tôi</a>
-                <a href="team.html">Đội ngũ thực hiện</a>
+                <a href="team.html">Đội ngũ &amp; thành viên</a>
 
             </div>
 
@@ -1325,7 +1325,7 @@ Hãy chọn chiếc bánh bạn yêu thích, trao đi một chút yêu thương 
             </p>
 
             <a href="team.html" class="primary-btn" style="display:inline-block;margin-top:12px;padding:10px 22px;font-size:14px;text-decoration:none;">
-                👥 Xem đội ngũ thực hiện
+                👥 Xem đội ngũ & thành viên
             </a>
 
         </div>
@@ -1461,6 +1461,33 @@ Hãy chọn chiếc bánh bạn yêu thích, trao đi một chút yêu thương 
                 <p class="auth-error" id="login-error"></p>
 
                 <button type="submit" class="auth-submit">Đăng nhập</button>
+                <p class="auth-forgot-wrap">
+                    <a href="#" class="auth-forgot-link" onclick="event.preventDefault(); switchAuthTab('forgot')">Quên mật khẩu?</a>
+                </p>
+            </form>
+
+            <!-- FORGOT PASSWORD FORM -->
+            <form id="forgot-form" class="auth-form" style="display:none;" onsubmit="handleForgotPassword(event)">
+                <h2>Quên mật khẩu</h2>
+                <p class="auth-hint">Nhập <b>tên đăng nhập</b> và <b>số điện thoại</b> đã đăng ký để lấy lại mật khẩu.</p>
+
+                <div class="form-group">
+                    <label>Tên đăng nhập</label>
+                    <input type="text" id="forgot-username" placeholder="Nhập tên đăng nhập" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label>Số điện thoại</label>
+                    <input type="tel" id="forgot-phone" placeholder="09xxxxxxxx" required>
+                </div>
+
+                <p class="auth-error" id="forgot-error"></p>
+                <p class="auth-success" id="forgot-success" style="display:none;"></p>
+
+                <button type="submit" class="auth-submit">Lấy lại mật khẩu</button>
+                <p class="auth-forgot-wrap">
+                    <a href="#" class="auth-forgot-link" onclick="event.preventDefault(); switchAuthTab('login')">← Quay lại đăng nhập</a>
+                </p>
             </form>
 
             <!-- REGISTER FORM -->

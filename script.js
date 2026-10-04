@@ -565,8 +565,14 @@ function openAuthModal(tab) {
     const overlay = document.getElementById("auth-overlay");
     overlay.classList.add("show");
     switchAuthTab(tab || "login");
-    document.getElementById("login-error").textContent = "";
-    document.getElementById("register-error").textContent = "";
+    const loginErr = document.getElementById("login-error");
+    const regErr = document.getElementById("register-error");
+    const forgotErr = document.getElementById("forgot-error");
+    const forgotOk = document.getElementById("forgot-success");
+    if (loginErr) loginErr.textContent = "";
+    if (regErr) regErr.textContent = "";
+    if (forgotErr) forgotErr.textContent = "";
+    if (forgotOk) { forgotOk.style.display = "none"; forgotOk.textContent = ""; }
 }
 
 function closeAuthModal() {
@@ -576,19 +582,65 @@ function closeAuthModal() {
 function switchAuthTab(tab) {
     const loginForm = document.getElementById("login-form");
     const registerForm = document.getElementById("register-form");
+    const forgotForm = document.getElementById("forgot-form");
     const tabLogin = document.getElementById("tab-login");
     const tabRegister = document.getElementById("tab-register");
 
-    if (tab === "login") {
-        loginForm.style.display = "block";
-        registerForm.style.display = "none";
-        tabLogin.classList.add("active");
-        tabRegister.classList.remove("active");
+    if (loginForm) loginForm.style.display = "none";
+    if (registerForm) registerForm.style.display = "none";
+    if (forgotForm) forgotForm.style.display = "none";
+    if (tabLogin) tabLogin.classList.remove("active");
+    if (tabRegister) tabRegister.classList.remove("active");
+
+    if (tab === "register") {
+        if (registerForm) registerForm.style.display = "block";
+        if (tabRegister) tabRegister.classList.add("active");
+    } else if (tab === "forgot") {
+        if (forgotForm) forgotForm.style.display = "block";
+        const err = document.getElementById("forgot-error");
+        const ok = document.getElementById("forgot-success");
+        if (err) err.textContent = "";
+        if (ok) { ok.style.display = "none"; ok.textContent = ""; }
     } else {
-        loginForm.style.display = "none";
-        registerForm.style.display = "block";
-        tabLogin.classList.remove("active");
-        tabRegister.classList.add("active");
+        if (loginForm) loginForm.style.display = "block";
+        if (tabLogin) tabLogin.classList.add("active");
+    }
+}
+
+function handleForgotPassword(event) {
+    event.preventDefault();
+    const username = document.getElementById("forgot-username").value;
+    const phone = document.getElementById("forgot-phone").value;
+    const errorEl = document.getElementById("forgot-error");
+    const successEl = document.getElementById("forgot-success");
+
+    errorEl.textContent = "";
+    successEl.style.display = "none";
+    successEl.textContent = "";
+
+    if (typeof recoverPassword !== "function") {
+        errorEl.textContent = "Chức năng chưa sẵn sàng!";
+        return;
+    }
+
+    const result = recoverPassword(username, phone);
+    if (!result.success) {
+        errorEl.textContent = result.message;
+        return;
+    }
+
+    successEl.style.display = "block";
+    successEl.innerHTML =
+        "Mật khẩu của tài khoản <b>" + result.username + "</b> là: <b>" + result.password + "</b><br>" +
+        '<a href="#" id="forgot-go-login">Đăng nhập ngay →</a>';
+    const go = document.getElementById("forgot-go-login");
+    if (go) {
+        go.onclick = function (e) {
+            e.preventDefault();
+            switchAuthTab("login");
+            const u = document.getElementById("login-username");
+            if (u) u.value = result.username;
+        };
     }
 }
 
